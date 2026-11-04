@@ -7,51 +7,53 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Surf Desk</title>
 <style>
+:root{--ac:#2dc4f0;--mut:#7f93a6;--pn:#0c131a;--ln:#1c2a36}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#000;color:#f1ecfa;font-family:-apple-system,Helvetica,Arial,sans-serif;overflow:hidden}
-#app{height:100%;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;padding:2vmin}
+html,body{height:100%;background:#000;color:#fff;font-family:"Helvetica Neue",-apple-system,Helvetica,Arial,sans-serif;overflow:hidden}
+#app{height:100%;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;padding:1.6vmin}
 header{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:baseline;align-items:baseline;padding:0 1vmin .6vmin}
-#clock{font-size:6vmin;font-weight:200}
-#date{font-size:3vmin;color:#c4b8e0;margin-left:2.5vmin;text-transform:capitalize}
-#place{font-size:2.4vmin;color:#a78bfa;text-transform:uppercase;letter-spacing:.15em}
+#clock{font-size:6vmin;font-weight:300}
+#date{font-size:3vmin;color:var(--mut);margin-left:2.5vmin;text-transform:capitalize}
+#place{font-size:2.2vmin;color:var(--mut);text-transform:uppercase;letter-spacing:.14em;font-weight:700}
 #grid{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;min-height:0}
 .r{display:-webkit-flex;display:flex;min-height:0}
 .rt{-webkit-flex:1.6;flex:1.6}.rb{-webkit-flex:1;flex:1}
-.card{--c:#60a5fa;background:#000;border:1px solid #241a3d;border-radius:2vmin;margin:.7vmin;padding:2vmin;-webkit-flex:1;flex:1;min-width:0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:space-between;justify-content:space-between}
+.card{background:var(--pn);border-radius:.8vmin;margin:.5vmin;padding:2vmin 2.2vmin;-webkit-flex:1;flex:1;min-width:0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:space-between;justify-content:space-between}
 .hd{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:baseline;align-items:baseline}
-h2{font-size:2.2vmin;font-weight:600;color:var(--c);text-transform:uppercase;letter-spacing:.14em}
-.wt{font-size:3.4vmin;font-weight:600;color:var(--c)}
-.wt span{font-size:1.9vmin;font-weight:400;color:#8b82a8;text-transform:uppercase;letter-spacing:.12em;margin-right:.8vmin}
-.big{font-size:12vmin;font-weight:600;line-height:1.05;color:var(--c)}
-.big small{font-size:4vmin;font-weight:400;color:#8b82a8;margin-left:.8vmin}
-.sub{font-size:3.4vmin;color:#c4b8e0;margin-top:.4vmin}
-.row{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;font-size:2.4vmin;color:#8b82a8}
-.row b{color:#f1ecfa;font-weight:600}
-.arrow{display:inline-block}
-.fs{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;margin-top:1vmin}
-.fd{-webkit-flex:1;flex:1;text-align:center;border-left:1px solid #241a3d;padding:.4vmin 0}
+h2{font-size:2vmin;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.12em}
+.wt{font-size:3.2vmin;font-weight:700;color:#fff}
+.wt span{font-size:1.8vmin;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;margin-right:.8vmin}
+.big{font-size:12vmin;font-weight:700;line-height:1.05;color:#fff;letter-spacing:-.02em}
+.big small{font-size:4vmin;font-weight:600;color:var(--mut);margin-left:.8vmin;letter-spacing:0}
+.sub{font-size:3.4vmin;color:#cfd9e2;margin-top:.4vmin;font-weight:600}
+.arrow{display:inline-block;color:var(--ac)}
+.gauge{height:.9vmin;background:var(--ln);border-radius:1vmin;margin-top:1.2vmin}
+.gauge i{display:block;height:100%;background:var(--ac);border-radius:1vmin;width:0}
+.fs{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;margin-top:1vmin;border-top:1px solid var(--ln);padding-top:1vmin}
+.fd{-webkit-flex:1;flex:1;text-align:center;border-left:1px solid var(--ln);padding:.4vmin 0}
 .fd:first-child{border-left:0}
-.fd i{display:block;font-style:normal;font-size:2.3vmin;color:#8b82a8;text-transform:uppercase;letter-spacing:.1em}
-.fd b{display:block;font-size:4.4vmin;color:var(--c);font-weight:600;line-height:1.2}
-.fd span{font-size:2.4vmin;color:#a99fc6}
-.fd.nx{background:#120c22;border-radius:1vmin}
-.fd.nx b{color:#fff}
-svg.ic{width:9vmin;height:9vmin;margin:0;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;color:var(--c)}
+.fd i{display:block;font-style:normal;font-size:2.1vmin;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.fd b{display:block;font-size:4.4vmin;color:#fff;font-weight:700;line-height:1.2}
+.fd span{font-size:2.3vmin;color:var(--mut);font-weight:600}
+.fd.nx{background:#142230}
+.fd.nx b{color:var(--ac)}
+svg.ic{width:9vmin;height:9vmin;margin:0;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;color:#e8eef4}
 .wx{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
 .wx .big{font-size:8vmin;margin-left:1.5vmin}
-.slot{-webkit-flex:1;flex:1;text-align:center;font-size:2.1vmin;color:#8b82a8}
-.slot b{display:block;color:#f1ecfa;font-weight:600;font-size:2.4vmin}
+.slot{-webkit-flex:1;flex:1;text-align:center;font-size:2.1vmin;color:var(--mut);font-weight:600}
+.slot b{display:block;color:#fff;font-weight:700;font-size:2.4vmin}
 .slot svg.ic{width:5.2vmin;height:5.2vmin;stroke-width:3.6;display:block;margin:0 auto}
 .two{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;min-height:0}
 .col{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:space-between;justify-content:space-between;padding-right:1.5vmin}
-.col+.col{border-left:1px solid #241a3d;padding-left:2.5vmin;padding-right:0}
+.col+.col{border-left:1px solid var(--ln);padding-left:2.5vmin;padding-right:0}
 .col .big{font-size:9vmin}
 .col .sub{font-size:2.8vmin}
 .strip{display:-webkit-flex;display:flex;margin-top:.6vmin}
-#tideSvg{color:var(--c);width:100%;height:9vmin;margin-top:.8vmin}
-#mapSvg{-webkit-flex:1;flex:1;min-height:0;height:100%;margin-top:1vmin}
-footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;font-size:1.5vmin;color:#4a4163;padding:0 2vmin}
-.up{color:#60a5fa}.down{color:#f472b6}
+#tideSvg{color:var(--ac);width:100%;height:9vmin;margin-top:.8vmin}
+.card.map{padding:0;overflow:hidden}
+#mapSvg{-webkit-flex:1;flex:1;min-height:0;width:100%;height:100%;margin:0;display:block}
+footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;font-size:1.5vmin;color:#3a4a58;padding:0 2vmin}
+.up{color:var(--ac)}.down{color:#f5a623}
 </style>
 </head>
 <body>
@@ -59,23 +61,23 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 <header><div><span id="clock">--:--</span><span id="date"></span></div><div id="place">Surf Desk · Saint-Nazaire</div></header>
 <div id="grid">
  <div class="r rt">
-  <div class="card" style="--c:#60a5fa"><div class="hd"><h2>Bouée Belle-Île</h2><div class="wt" id="b0W">–</div></div>
-   <div><div class="big" id="b0H">–<small>m</small></div><div class="sub" id="b0S">–</div></div>
+  <div class="card"><div class="hd"><h2>Bouée Belle-Île</h2><div class="wt" id="b0W">–</div></div>
+   <div><div class="big" id="b0H">–<small>m</small></div><div class="sub" id="b0S">–</div><div class="gauge"><i id="b0G"></i></div></div>
    <div class="fs" id="b0F"></div></div>
-  <div class="card" style="--c:#818cf8"><div class="hd"><h2>Bouée Noirmoutier</h2><div class="wt" id="b1W">–</div></div>
-   <div><div class="big" id="b1H">–<small>m</small></div><div class="sub" id="b1S">–</div></div>
+  <div class="card"><div class="hd"><h2>Bouée Noirmoutier</h2><div class="wt" id="b1W">–</div></div>
+   <div><div class="big" id="b1H">–<small>m</small></div><div class="sub" id="b1S">–</div><div class="gauge"><i id="b1G"></i></div></div>
    <div class="fs" id="b1F"></div></div>
-  <div class="card" style="--c:#a78bfa"><div class="hd"><h2>Marée · Pornichet</h2><div class="wt" id="coef"></div></div>
+  <div class="card"><div class="hd"><h2>Marée · Pornichet</h2><div class="wt" id="coef"></div></div>
    <div class="sub" id="tideNow">–</div>
    <svg id="tideSvg" viewBox="0 0 400 100" preserveAspectRatio="none"></svg>
    <div class="fs" id="tideF"></div></div>
  </div>
  <div class="r rb">
   <div class="card" style="-webkit-flex:2;flex:2"><div class="two">
-   <div class="col" style="--c:#c084fc"><h2>Vent</h2><div class="big" id="wd">–<small>nd</small></div><div class="sub" id="wdS">–</div></div>
-   <div class="col" style="--c:#e879f9"><h2>Météo</h2><div class="wx"><div id="icon"></div><div class="big" id="tmp">–<small>°C</small></div></div><div class="strip" id="strip"></div><div class="sub" id="feel">–</div></div>
+   <div class="col"><h2>Vent</h2><div class="big" id="wd">–<small>nd</small></div><div class="sub" id="wdS">–</div></div>
+   <div class="col"><h2>Météo</h2><div class="wx"><div id="icon"></div><div class="big" id="tmp">–<small>°C</small></div></div><div class="strip" id="strip"></div><div class="sub" id="feel">–</div></div>
   </div></div>
-  <div class="card" style="--c:#f472b6"><h2>Côte</h2><svg id="mapSvg" viewBox="0 0 129 105" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="card map"><svg id="mapSvg" viewBox="0 0 129 105" preserveAspectRatio="xMidYMid slice"></svg></div>
  </div>
 </div>
 <footer><span id="credit">Marées : api-maree.fr (CC BY), calculées à partir de composantes harmoniques Ifremer / PREVIMER (CC BY)</span><span id="status">Chargement…</span></footer>
@@ -85,8 +87,8 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 var BUOYS=[{name:'Belle-Île',lat:47.30,lon:-3.40},{name:'Noirmoutier',lat:47.01,lon:-2.29}]; // points approximatifs
 var LAND={lat:47.25,lon:-2.25};    // vent + météo (modèles Météo-France)
 var WIND_UNIT='kn';                // 'kn' = nœuds, 'kmh' = km/h
-var TIDE_KEY='';                   // clé gratuite api-maree.fr (voir explications)
-var TIDE_SITE='';                  // laisser vide : cherche « Pornichet » automatiquement
+var TIDE_KEY='d7c5dde6e8b5c6d0e2371b296acb8825'; // clé gratuite api-maree.fr
+var TIDE_SITE='pornichet';         // identifiant du port
 var REFRESH_MIN=15;
 // ------------------
 var TZ='Europe/Paris';
@@ -112,7 +114,7 @@ function icon(code,day){
  return '<svg class="ic" viewBox="0 0 64 64">'+b+'</svg>';
 }
 function arrow(deg){var r=(deg||0)+180;return '<span class="arrow" style="-webkit-transform:rotate('+r+'deg);transform:rotate('+r+'deg)">↑</span>';}
-function spark(svg,vals,now){var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1,n=vals.length,pts=[],i;for(i=0;i<n;i++)pts.push((i/(n-1)*400).toFixed(1)+','+(90-(vals[i]-mn)/rg*80).toFixed(1));var nx=now/(n-1)*400;svg.innerHTML='<polyline points="'+pts.join(' ')+'" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"/><line x1="'+nx+'" y1="0" x2="'+nx+'" y2="100" stroke="#e9d5ff" stroke-width="2" vector-effect="non-scaling-stroke"/>';}
+function spark(svg,vals,now){var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1,n=vals.length,pts=[],i;for(i=0;i<n;i++)pts.push((i/(n-1)*400).toFixed(1)+','+(90-(vals[i]-mn)/rg*80).toFixed(1));var nx=now/(n-1)*400;svg.innerHTML='<polygon points="0,100 '+pts.join(' ')+' 400,100" fill="currentColor" fill-opacity=".16"/><polyline points="'+pts.join(' ')+'" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"/><line x1="'+nx+'" y1="0" x2="'+nx+'" y2="100" stroke="#fff" stroke-width="2" vector-effect="non-scaling-stroke"/>';}
 function nowIdx(t){var d=new Date(),k=d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+'T'+p2(d.getHours())+':00',i;for(i=0;i<t.length;i++)if(t[i]>=k)return i;return 0;}
 
 // ---- Houle (prévision modèle aux points des bouées) ----
@@ -134,11 +136,13 @@ function loadSea(){
   for(k=0;k<2;k++){
    var d=r[k],c=d.current;
    $('b'+k+'H').innerHTML=r1(c.swell_wave_height)+'<small>m</small>';
+   MAPD.sw[k]={h:c.swell_wave_height,p:c.swell_wave_period,d:c.swell_wave_direction};
+   $('b'+k+'G').style.width=Math.min(100,Math.round((c.swell_wave_height||0)/3*100))+'%';
    $('b'+k+'S').innerHTML=Math.round(c.swell_wave_period||0)+' s · '+dir(c.swell_wave_direction)+' '+arrow(c.swell_wave_direction);
    $('b'+k+'W').innerHTML='<span>Eau</span>'+r1(c.sea_surface_temperature)+'°C';
    $('b'+k+'F').innerHTML=days3(d.hourly);
   }
-  done();
+  drawMap();done();
  },fail);
 }
 
@@ -182,7 +186,7 @@ function loadWx(){
   $('feel').textContent='Ressenti '+Math.round(c.apparent_temperature)+'° · '+hm(d.daily.sunrise[0])+'–'+hm(d.daily.sunset[0]);
   var hh=d.hourly,i0=nowIdx(hh.time),st='',k;
   for(k=3;k<=9;k+=3){var q=i0+k;if(hh.time[q])st+='<div class="slot">'+icon(hh.weather_code[q],hh.is_day[q]===1)+'<b>'+Math.round(hh.temperature_2m[q])+'°</b>'+hh.time[q].substr(11,2)+'h</div>';}
-  $('strip').innerHTML=st;done();
+  $('strip').innerHTML=st;MAPD.wind={s:c.wind_speed_10m,d:c.wind_direction_10m};drawMap();done();
  },fail);
 }
 
@@ -191,14 +195,31 @@ var MAINLAND=[[-3.6,47.78],[-3.45,47.73],[-3.35,47.71],[-3.25,47.67],[-3.14,47.6
 var BELLE=[[-3.30,47.34],[-3.22,47.38],[-3.12,47.37],[-3.07,47.33],[-3.10,47.29],[-3.22,47.30]];
 var NOIR=[[-2.30,47.03],[-2.20,47.02],[-2.13,46.98],[-2.15,46.90],[-2.22,46.92],[-2.30,46.98]];
 function xy(o){return [(o[0]+3.6)*75.9,(47.8-o[1])*111];}
-function poly(a){var i,r=[];for(i=0;i<a.length;i++){var q=xy(a[i]);r.push(q[0].toFixed(1)+','+q[1].toFixed(1));}return '<polygon points="'+r.join(' ')+'" fill="#1b1432" stroke="#3b2a66" stroke-width="0.8" stroke-linejoin="round"/>';}
+function poly(a){var i,r=[];for(i=0;i<a.length;i++){var q=xy(a[i]);r.push(q[0].toFixed(1)+','+q[1].toFixed(1));}return '<polygon points="'+r.join(' ')+'" fill="#111c27" stroke="#2b4156" stroke-width="0.8" stroke-linejoin="round"/>';}
 function pin(lon,lat,col,label,dx,dy,anchor){var q=xy([lon,lat]);return '<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3.2" fill="'+col+'"/><text x="'+(q[0]+dx).toFixed(1)+'" y="'+(q[1]+dy).toFixed(1)+'" font-size="6.5" fill="'+col+'" text-anchor="'+anchor+'" font-family="Helvetica,Arial,sans-serif">'+label+'</text>';}
+var MAPD={sw:[null,null],wind:null};
+function waves(cx,cy,w){
+ if(!w||w.h==null||w.d==null)return '';
+ var b=((w.d+180)%360)*Math.PI/180,ux=Math.sin(b),uy=-Math.cos(b),tx=-uy,ty=ux;
+ var sp=3+(w.p||8)*0.6,sw=0.5+Math.min(w.h,3.5)*0.9,op=(0.3+Math.min(w.h/3,1)*0.6).toFixed(2),out='',k,s,o,pts;
+ for(k=-2;k<=2;k++){pts=[];
+  for(s=-13;s<=13;s+=1.5){o=k*sp+0.9*Math.sin(s*0.8);pts.push((cx+tx*s+ux*o).toFixed(1)+','+(cy+ty*s+uy*o).toFixed(1));}
+  out+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#2dc4f0" stroke-width="'+sw.toFixed(1)+'" stroke-opacity="'+op+'" stroke-linecap="round" stroke-linejoin="round"/>';}
+ return out;
+}
+function windArrow(w){
+ if(!w)return '';
+ var kt=WIND_UNIT==='kn'?w.s:w.s/1.852,sc=(0.8+Math.min(kt/25,1)*0.7).toFixed(2),rot=((w.d||0)+180)%360,u=WIND_UNIT==='kn'?'nd':'km/h';
+ return '<g transform="translate(52,15) rotate('+rot+') scale('+sc+')"><path d="M0 9V-9M-5 -4L0 -9L5 -4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="63" y="17.5" font-size="6.5" font-weight="700" fill="#fff" font-family="Helvetica,Arial,sans-serif">'+Math.round(w.s)+' '+u+'</text>';
+}
 function drawMap(){
- var h=poly(MAINLAND)+poly(BELLE)+poly(NOIR);
- h+=pin(BUOYS[0].lon,BUOYS[0].lat,'#60a5fa','Belle-Île',0,-6,'middle');
- h+=pin(BUOYS[1].lon,BUOYS[1].lat,'#818cf8','Noirmoutier',-6,3,'end');
+ var a=xy([BUOYS[0].lon,BUOYS[0].lat]),b=xy([BUOYS[1].lon,BUOYS[1].lat]);
+ var h=waves(a[0],a[1],MAPD.sw[0])+waves(b[0],b[1],MAPD.sw[1])+poly(MAINLAND)+poly(BELLE)+poly(NOIR);
+ h+=pin(BUOYS[0].lon,BUOYS[0].lat,'#2dc4f0','Belle-Île',0,-6,'middle');
+ h+=pin(BUOYS[1].lon,BUOYS[1].lat,'#2dc4f0','Noirmoutier',-6,3,'end');
  var q=xy([-2.21,47.27]);
- h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="5.5" fill="none" stroke="#f472b6" stroke-width="1.4"/><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.4" fill="#f472b6"/><text x="'+(q[0]-8).toFixed(1)+'" y="'+(q[1]-6).toFixed(1)+'" font-size="6.5" fill="#f472b6" text-anchor="end" font-family="Helvetica,Arial,sans-serif">Saint-Nazaire</text>';
+ h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="5.5" fill="none" stroke="#f5a623" stroke-width="1.4"/><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.4" fill="#f5a623"/><text x="'+(q[0]-8).toFixed(1)+'" y="'+(q[1]-6).toFixed(1)+'" font-size="6.5" fill="#f5a623" text-anchor="end" font-family="Helvetica,Arial,sans-serif">Saint-Nazaire</text>';
+ h+=windArrow(MAPD.wind);
  $('mapSvg').innerHTML=h;
 }
 
