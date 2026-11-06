@@ -51,7 +51,7 @@ svg.ic{width:9vmin;height:9vmin;margin:0;fill:none;stroke:currentColor;stroke-wi
 .col .sub{font-size:2.8vmin}
 .strip{display:-webkit-flex;display:flex;margin-top:.6vmin}
 #tideSvg{color:var(--ac);width:100%;height:9vmin;margin-top:.8vmin}
-.card.map{padding:0;overflow:hidden;position:relative;display:block;-webkit-flex:1;flex:1}
+.card.map{padding:0;overflow:hidden;position:relative;display:block;-webkit-flex:1;flex:1;background:#051f33}
 .mapw{-webkit-flex:1.05;flex:1.05;position:relative;min-width:0}
 #mapSvg{position:absolute;left:0;top:0;width:100%;height:100%;margin:0;display:block}
 .card.map .two{-webkit-flex:1.7;flex:1.7;padding:2vmin 2.4vmin}
@@ -66,7 +66,7 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 <div id="app">
 <header><div><span id="clock">--:--</span><span id="date"></span></div><div id="place">Surf Desk · Saint-Nazaire</div></header>
 <div id="grid">
- <div class="card map"><svg id="mapSvg" viewBox="0 -56 129 188" preserveAspectRatio="xMidYMid meet"></svg></div>
+ <div class="card map"><svg id="mapSvg" viewBox="0 -56 129 188" preserveAspectRatio="xMidYMid meet"><g id="gBase"></g><g id="gDyn"></g></svg></div>
  <div class="rc">
   <div class="r rt">
   <div class="card"><div class="hd"><h2>Belle-Île</h2><div class="wt" id="b0W">–</div></div>
@@ -85,11 +85,11 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
   </div>
  </div>
 </div>
-<footer><span id="credit">Marées : api-maree.fr (CC BY), calculées à partir de composantes harmoniques Ifremer / PREVIMER (CC BY)</span><span id="status">Chargement…</span></footer>
+<footer><span id="credit">Marées : api-maree.fr (CC BY), calculées à partir de composantes harmoniques Ifremer / PREVIMER (CC BY) · Imagerie : Esri, Maxar, Earthstar Geographics</span><span id="status">Chargement…</span></footer>
 </div>
 <script>
 // ---- RÉGLAGES ----
-var BUOYS=[{name:'Belle-Île',lat:47.30,lon:-3.40},{name:'Noirmoutier',lat:47.01,lon:-2.29}]; // points approximatifs
+var BUOYS=[{name:'Belle-Île',lat:47.30,lon:-3.40},{name:'Noirmoutier',lat:47.00,lon:-2.45}]; // points approximatifs
 var LAND={lat:47.25,lon:-2.25};    // vent + météo (modèles Météo-France)
 var WIND_UNIT='kn';                // 'kn' = nœuds, 'kmh' = km/h
 var TIDE_KEY='d7c5dde6e8b5c6d0e2371b296acb8825'; // clé gratuite api-maree.fr
@@ -197,9 +197,13 @@ var MAINLAND=[[-4.5,47.9],[-3.6,47.78],[-3.45,47.73],[-3.35,47.71],[-3.25,47.67]
 var YEU=[[-2.43,46.73],[-2.33,46.75],[-2.28,46.72],[-2.35,46.69],[-2.45,46.71]];
 var BELLE=[[-3.30,47.34],[-3.22,47.38],[-3.12,47.37],[-3.07,47.33],[-3.10,47.29],[-3.22,47.30]];
 var NOIR=[[-2.30,47.03],[-2.20,47.02],[-2.13,46.98],[-2.15,46.90],[-2.22,46.92],[-2.30,46.98]];
-function xy(o){return [(o[0]+3.6)*75.9,(47.8-o[1])*111];}
+var TS=256*1024,KM=9.6;
+function mxp(lon){return (lon+180)/360*TS;}
+function myp(lat){var r=lat*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*TS;}
+var OX=mxp(-3.6),OY=myp(47.8);
+function xy(o){return [(mxp(o[0])-OX)/KM,(myp(o[1])-OY)/KM];}
 function poly(a){var i,r=[];for(i=0;i<a.length;i++){var q=xy(a[i]);r.push(q[0].toFixed(1)+','+q[1].toFixed(1));}return '<polygon points="'+r.join(' ')+'" fill="#111c27" stroke="#2b4156" stroke-width="0.8" stroke-linejoin="round"/>';}
-function pin(lon,lat,col,label,dx,dy,anchor){var q=xy([lon,lat]);return '<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3.2" fill="'+col+'"/><text x="'+(q[0]+dx).toFixed(1)+'" y="'+(q[1]+dy).toFixed(1)+'" font-size="6.5" fill="'+col+'" text-anchor="'+anchor+'" font-family="Helvetica,Arial,sans-serif">'+label+'</text>';}
+function pin(lon,lat,col,label,dx,dy,anchor){var q=xy([lon,lat]);return '<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3.2" fill="'+col+'"/><text x="'+(q[0]+dx).toFixed(1)+'" y="'+(q[1]+dy).toFixed(1)+'" font-size="6.5" fill="'+col+'" stroke="#00121f" stroke-opacity=".6" stroke-width="1.3" paint-order="stroke" stroke-linejoin="round" text-anchor="'+anchor+'" font-family="Helvetica,Arial,sans-serif">'+label+'</text>';}
 var MAPD={sw:[null,null],wind:null};
 function waves(cx,cy,w){
  if(!w||w.h==null||w.d==null)return '';
@@ -207,10 +211,10 @@ function waves(cx,cy,w){
  var sp=3+(w.p||8)*0.6,sw=0.5+Math.min(w.h,3.5)*0.9,op=(0.3+Math.min(w.h/3,1)*0.6).toFixed(2),out='',k,s,o,pts;
  for(k=-2;k<=2;k++){pts=[];
   for(s=-13;s<=13;s+=1.5){o=k*sp+0.9*Math.sin(s*0.8);pts.push((cx+tx*s+ux*o).toFixed(1)+','+(cy+ty*s+uy*o).toFixed(1));}
-  out+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#2dc4f0" stroke-width="'+sw.toFixed(1)+'" stroke-opacity="'+op+'" stroke-linecap="round" stroke-linejoin="round"/>';}
+  out+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#ffffff" stroke-width="'+sw.toFixed(1)+'" stroke-opacity="'+op+'" stroke-linecap="round" stroke-linejoin="round"/>';}
  return out;
 }
-function tx(x,y,t,sz,col,an,wt){return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+sz+'" fill="'+col+'" text-anchor="'+(an||'start')+'" font-weight="'+(wt||700)+'" font-family="Helvetica,Arial,sans-serif">'+t+'</text>';}
+function tx(x,y,t,sz,col,an,wt){return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+sz+'" fill="'+col+'" stroke="#00121f" stroke-opacity=".6" stroke-width="1.3" paint-order="stroke" stroke-linejoin="round" text-anchor="'+(an||'start')+'" font-weight="'+(wt||700)+'" font-family="Helvetica,Arial,sans-serif">'+t+'</text>';}
 function ico(code,day,x,y,z){return '<svg x="'+x+'" y="'+y+'" width="'+z+'" height="'+z+'" viewBox="0 0 64 64" fill="none" stroke="#e8eef4" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">'+iconB(code,day)+'</svg>';}
 function overlay(){
  var o='',w=MAPD.wx,v=MAPD.wind,i,f,cx;
@@ -227,16 +231,38 @@ function overlay(){
 }
 function buoyPin(i,name,below){
  var b=BUOYS[i],q=xy([b.lon,b.lat]),w=MAPD.sw[i],x=q[0],y=q[1],an=below?'start':'end',dx=below?(4-x):-7,y0=below?y+11:y-2;
- var o='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.2" fill="#2dc4f0"/>'+tx(x+dx,y0,name,6.5,'#2dc4f0',an);
+ var o='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.2" fill="#2dc4f0" stroke="#ffffff" stroke-width="1"/>'+tx(x+dx,y0,name,6.5,'#2dc4f0',an);
  if(w&&w.h!=null)o+=tx(x+dx,y0+8.5,r1(w.h)+' m · '+Math.round(w.p)+' s',8.5,'#fff',an)+tx(x+dx,y0+15,'eau '+r1(w.t)+'°C',5.8,'#9fb0c0',an,600);
  return o;
 }
+function pts(a){var i,r=[];for(i=0;i<a.length;i++){var q=xy(a[i]);r.push(q[0].toFixed(1)+','+q[1].toFixed(1));}return r.join(' ');}
+function drawBase(){
+ var L=[MAINLAND,BELLE,NOIR,YEU],i,j,p,land='',halo='',coast='',t='';
+ for(i=0;i<L.length;i++){p=pts(L[i]);
+  land+='<polygon points="'+p+'"/>';
+  halo+='<polygon points="'+p+'" fill="#45c9bb" stroke="#45c9bb" stroke-width="6" stroke-linejoin="round"/>';
+  coast+='<polygon points="'+p+'" fill="none" stroke="#efe6c4" stroke-opacity=".5" stroke-width=".5" stroke-linejoin="round"/>';}
+ var h='<defs><linearGradient id="sea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b4160"/><stop offset="1" stop-color="#051f33"/></linearGradient>'+
+  '<filter id="bl" filterUnits="userSpaceOnUse" x="-80" y="-130" width="300" height="420"><feGaussianBlur stdDeviation="3.4"/></filter>'+
+  '<filter id="tex" filterUnits="userSpaceOnUse" x="-80" y="-130" width="300" height="420"><feTurbulence type="fractalNoise" baseFrequency=".06 .08" numOctaves="4" seed="11" result="n"/>'+
+  '<feColorMatrix in="n" type="matrix" values=".34 0 0 0 .07  0 .30 0 0 .20  0 0 .14 0 .08  0 0 0 0 1" result="c"/><feComposite in="c" in2="SourceGraphic" operator="in"/></filter></defs>';
+ h+='<rect x="-80" y="-130" width="300" height="420" fill="url(#sea)"/><g filter="url(#bl)" opacity=".8">'+halo+'</g><g filter="url(#tex)">'+land+'</g>'+coast;
+ var x0=Math.floor(OX/256),x1=Math.floor((OX+129*KM)/256),y0=Math.floor((OY-56*KM)/256),y1=Math.floor((OY+132*KM)/256),u,z=(256/KM+0.3).toFixed(2);
+ for(i=x0;i<=x1;i++)for(j=y0;j<=y1;j++){
+  u='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/'+j+'/'+i;
+  t+='<image x="'+((i*256-OX)/KM).toFixed(2)+'" y="'+((j*256-OY)/KM).toFixed(2)+'" width="'+z+'" height="'+z+'" preserveAspectRatio="none" href="'+u+'" xlink:href="'+u+'"/>';}
+ h+=t+'<rect x="-80" y="-130" width="300" height="420" fill="#000" fill-opacity=".14"/>';
+ $('gBase').innerHTML=h;
+}
 function drawMap(){
- var a=xy([BUOYS[0].lon,BUOYS[0].lat]),b=xy([BUOYS[1].lon,BUOYS[1].lat]),q=xy([-2.21,47.27]);
- var h=waves(a[0],a[1],MAPD.sw[0])+waves(b[0],b[1],MAPD.sw[1])+poly(MAINLAND)+poly(BELLE)+poly(NOIR)+poly(YEU)+overlay();
+ var a=xy([BUOYS[0].lon,BUOYS[0].lat]),b=xy([BUOYS[1].lon,BUOYS[1].lat]),q=xy([-2.21,47.27]),L=[MAINLAND,BELLE,NOIR,YEU],i,m='';
+ for(i=0;i<L.length;i++)m+='<polygon points="'+pts(L[i])+'"/>';
+ var h='<defs><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".62"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>'+
+  '<mask id="sm" maskUnits="userSpaceOnUse" x="-80" y="-130" width="300" height="420"><rect x="-80" y="-130" width="300" height="420" fill="#fff"/><g fill="#000">'+m+'</g></mask></defs>';
+ h+='<g mask="url(#sm)">'+waves(a[0],a[1],MAPD.sw[0])+waves(b[0],b[1],MAPD.sw[1])+'</g><rect x="-80" y="-56" width="300" height="74" fill="url(#shade)"/>'+overlay();
  h+=buoyPin(0,'Belle-Île',true)+buoyPin(1,'Noirmoutier',false);
  h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="5.5" fill="none" stroke="#f5a623" stroke-width="1.4"/><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.4" fill="#f5a623"/>'+tx(q[0]-8,q[1]-5,'Saint-Nazaire',6.5,'#f5a623','end');
- $('mapSvg').innerHTML=h;
+ $('gDyn').innerHTML=h;
 }
 
 function done(){var d=new Date();$('status').textContent='Mis à jour '+p2(d.getHours())+':'+p2(d.getMinutes())+' · houle : modèle aux points des bouées';}
@@ -244,7 +270,7 @@ function fail(){$('status').textContent='Données indisponibles, nouvel essai da
 var JRS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 function tick(){var d=new Date();$('clock').textContent=p2(d.getHours())+':'+p2(d.getMinutes());$('date').textContent=JRS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()];}
 function load(){loadSea();loadWx();loadTide();}
-drawMap();tick();setInterval(tick,10000);load();setInterval(load,REFRESH_MIN*60000);
+drawBase();drawMap();tick();setInterval(tick,10000);load();setInterval(load,REFRESH_MIN*60000);
 </script>
 </body>
 </html>
