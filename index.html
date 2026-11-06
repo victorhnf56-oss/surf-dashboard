@@ -15,13 +15,14 @@ header{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 #clock{font-size:6vmin;font-weight:300}
 #date{font-size:3vmin;color:var(--mut);margin-left:2.5vmin;text-transform:capitalize}
 #place{font-size:2.2vmin;color:var(--mut);text-transform:uppercase;letter-spacing:.14em;font-weight:700}
-#grid{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;min-height:0}
+#grid{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;min-height:0}
+.rc{-webkit-flex:1.25;flex:1.25;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;min-width:0}
 .r{display:-webkit-flex;display:flex;min-height:0}
 .rt{-webkit-flex:1.6;flex:1.6}.rb{-webkit-flex:1;flex:1}
 .card{background:var(--pn);border-radius:.8vmin;margin:.5vmin;padding:2vmin 2.2vmin;-webkit-flex:1;flex:1;min-width:0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:space-between;justify-content:space-between}
 .hd{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:baseline;align-items:baseline}
-h2{font-size:2vmin;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.12em}
-.wt{font-size:3.2vmin;font-weight:700;color:#fff}
+h2{font-size:1.85vmin;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.wt{font-size:2.8vmin;font-weight:700;color:#fff}
 .wt span{font-size:1.8vmin;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;margin-right:.8vmin}
 .big{font-size:12vmin;font-weight:700;line-height:1.05;color:#fff;letter-spacing:-.02em}
 .big small{font-size:4vmin;font-weight:600;color:var(--mut);margin-left:.8vmin;letter-spacing:0}
@@ -33,7 +34,7 @@ h2{font-size:2vmin;font-weight:700;color:var(--mut);text-transform:uppercase;let
 .fd{-webkit-flex:1;flex:1;text-align:center;border-left:1px solid var(--ln);padding:.4vmin 0}
 .fd:first-child{border-left:0}
 .fd i{display:block;font-style:normal;font-size:2.1vmin;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;font-weight:700}
-.fd b{display:block;font-size:4.4vmin;color:#fff;font-weight:700;line-height:1.2}
+.fd b{display:block;font-size:3.6vmin;color:#fff;font-weight:700;line-height:1.2}
 .fd span{font-size:2.3vmin;color:var(--mut);font-weight:600}
 .fd.nx{background:#142230}
 .fd.nx b{color:var(--ac)}
@@ -50,8 +51,13 @@ svg.ic{width:9vmin;height:9vmin;margin:0;fill:none;stroke:currentColor;stroke-wi
 .col .sub{font-size:2.8vmin}
 .strip{display:-webkit-flex;display:flex;margin-top:.6vmin}
 #tideSvg{color:var(--ac);width:100%;height:9vmin;margin-top:.8vmin}
-.card.map{padding:0;overflow:hidden}
-#mapSvg{-webkit-flex:1;flex:1;min-height:0;width:100%;height:100%;margin:0;display:block}
+.card.map{padding:0;overflow:hidden;position:relative;display:block;-webkit-flex:1;flex:1}
+.mapw{-webkit-flex:1.05;flex:1.05;position:relative;min-width:0}
+#mapSvg{position:absolute;left:0;top:0;width:100%;height:100%;margin:0;display:block}
+.card.map .two{-webkit-flex:1.7;flex:1.7;padding:2vmin 2.4vmin}
+.fd{min-width:0}
+.tf .fd b{font-size:3.6vmin;letter-spacing:-.02em}
+h2,.wt{white-space:nowrap}
 footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;font-size:1.5vmin;color:#3a4a58;padding:0 2vmin}
 .up{color:var(--ac)}.down{color:#f5a623}
 </style>
@@ -60,24 +66,23 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 <div id="app">
 <header><div><span id="clock">--:--</span><span id="date"></span></div><div id="place">Surf Desk · Saint-Nazaire</div></header>
 <div id="grid">
- <div class="r rt">
-  <div class="card"><div class="hd"><h2>Bouée Belle-Île</h2><div class="wt" id="b0W">–</div></div>
+ <div class="card map"><svg id="mapSvg" viewBox="0 -56 129 188" preserveAspectRatio="xMidYMid meet"></svg></div>
+ <div class="rc">
+  <div class="r rt">
+  <div class="card"><div class="hd"><h2>Belle-Île</h2><div class="wt" id="b0W">–</div></div>
    <div><div class="big" id="b0H">–<small>m</small></div><div class="sub" id="b0S">–</div><div class="gauge"><i id="b0G"></i></div></div>
    <div class="fs" id="b0F"></div></div>
-  <div class="card"><div class="hd"><h2>Bouée Noirmoutier</h2><div class="wt" id="b1W">–</div></div>
+  <div class="card"><div class="hd"><h2>Noirmoutier</h2><div class="wt" id="b1W">–</div></div>
    <div><div class="big" id="b1H">–<small>m</small></div><div class="sub" id="b1S">–</div><div class="gauge"><i id="b1G"></i></div></div>
    <div class="fs" id="b1F"></div></div>
+
+  </div>
+  <div class="r rb">
   <div class="card"><div class="hd"><h2>Marée · Pornichet</h2><div class="wt" id="coef"></div></div>
    <div class="sub" id="tideNow">–</div>
    <svg id="tideSvg" viewBox="0 0 400 100" preserveAspectRatio="none"></svg>
-   <div class="fs" id="tideF"></div></div>
- </div>
- <div class="r rb">
-  <div class="card" style="-webkit-flex:2;flex:2"><div class="two">
-   <div class="col"><h2>Vent</h2><div class="big" id="wd">–<small>nd</small></div><div class="sub" id="wdS">–</div></div>
-   <div class="col"><h2>Météo</h2><div class="wx"><div id="icon"></div><div class="big" id="tmp">–<small>°C</small></div></div><div class="strip" id="strip"></div><div class="sub" id="feel">–</div></div>
-  </div></div>
-  <div class="card map"><svg id="mapSvg" viewBox="0 0 129 105" preserveAspectRatio="xMidYMid slice"></svg></div>
+   <div class="fs tf" id="tideF"></div></div>
+  </div>
  </div>
 </div>
 <footer><span id="credit">Marées : api-maree.fr (CC BY), calculées à partir de composantes harmoniques Ifremer / PREVIMER (CC BY)</span><span id="status">Chargement…</span></footer>
@@ -102,7 +107,7 @@ function hm(s){return s.substr(11,5);}
 var CL='<path d="M20 46h24a10 10 0 0 0 0-20 14 14 0 0 0-27 3 9 9 0 0 0 3 17z"/>';
 var SUN='<circle cx="32" cy="32" r="10"/><path d="M32 10v6M32 48v6M10 32h6M48 32h6M16 16l4 4M44 44l4 4M48 16l-4 4M20 44l-4 4"/>';
 var MOON='<path d="M42 12A20 20 0 1 0 52 40 16 16 0 0 1 42 12z"/>';
-function icon(code,day){
+function iconB(code,day){
  var b,sky=day?'<circle cx="22" cy="22" r="7"/><path d="M22 8v4M8 22h4M12 12l3 3M32 12l-3 3"/>':'<path d="M26 10A11 11 0 1 0 32 28 9 9 0 0 1 26 10z"/>';
  if(code===0||code===1)b=day?SUN:MOON;
  else if(code===2)b=sky+'<g transform="translate(8,8) scale(.8)" fill="#000">'+CL+'</g>';
@@ -111,8 +116,9 @@ function icon(code,day){
  else if(code>=71&&code<=77||code===85||code===86)b='<g transform="translate(0,-6)">'+CL+'</g><path d="M24 50v.1M34 54v.1M44 50v.1" stroke-width="6"/>';
  else if(code>=95)b='<g transform="translate(0,-6)">'+CL+'</g><path d="M35 44l-7 9h9l-5 9"/>';
  else b='<g transform="translate(0,-6)">'+CL+'</g><path d="M24 46l-3 9M34 46l-3 9M44 46l-3 9"/>';
- return '<svg class="ic" viewBox="0 0 64 64">'+b+'</svg>';
+ return b;
 }
+function icon(code,day){return '<svg class="ic" viewBox="0 0 64 64">'+iconB(code,day)+'</svg>';}
 function arrow(deg){var r=(deg||0)+180;return '<span class="arrow" style="-webkit-transform:rotate('+r+'deg);transform:rotate('+r+'deg)">↑</span>';}
 function spark(svg,vals,now){var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1,n=vals.length,pts=[],i;for(i=0;i<n;i++)pts.push((i/(n-1)*400).toFixed(1)+','+(90-(vals[i]-mn)/rg*80).toFixed(1));var nx=now/(n-1)*400;svg.innerHTML='<polygon points="0,100 '+pts.join(' ')+' 400,100" fill="currentColor" fill-opacity=".16"/><polyline points="'+pts.join(' ')+'" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"/><line x1="'+nx+'" y1="0" x2="'+nx+'" y2="100" stroke="#fff" stroke-width="2" vector-effect="non-scaling-stroke"/>';}
 function nowIdx(t){var d=new Date(),k=d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+'T'+p2(d.getHours())+':00',i;for(i=0;i<t.length;i++)if(t[i]>=k)return i;return 0;}
@@ -136,7 +142,7 @@ function loadSea(){
   for(k=0;k<2;k++){
    var d=r[k],c=d.current;
    $('b'+k+'H').innerHTML=r1(c.swell_wave_height)+'<small>m</small>';
-   MAPD.sw[k]={h:c.swell_wave_height,p:c.swell_wave_period,d:c.swell_wave_direction};
+   MAPD.sw[k]={h:c.swell_wave_height,p:c.swell_wave_period,d:c.swell_wave_direction,t:c.sea_surface_temperature};
    $('b'+k+'G').style.width=Math.min(100,Math.round((c.swell_wave_height||0)/3*100))+'%';
    $('b'+k+'S').innerHTML=Math.round(c.swell_wave_period||0)+' s · '+dir(c.swell_wave_direction)+' '+arrow(c.swell_wave_direction);
    $('b'+k+'W').innerHTML='<span>Eau</span>'+r1(c.sea_surface_temperature)+'°C';
@@ -179,19 +185,16 @@ function loadWx(){
   '&current=temperature_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,wind_direction_10m,wind_gusts_10m'+
   '&hourly=weather_code,temperature_2m,is_day&daily=sunrise,sunset&wind_speed_unit='+WIND_UNIT+'&timezone='+TZ+'&forecast_days=2',function(d){
   var c=d.current,u=WIND_UNIT==='kn'?'nd':'km/h';
-  $('wd').innerHTML=Math.round(c.wind_speed_10m)+'<small>'+u+'</small>';
-  $('wdS').innerHTML=dir(c.wind_direction_10m)+' '+arrow(c.wind_direction_10m)+' · raf. '+Math.round(c.wind_gusts_10m);
-  $('tmp').innerHTML=Math.round(c.temperature_2m)+'<small>°C</small>';
-  $('icon').innerHTML=icon(c.weather_code,c.is_day===1);
-  $('feel').textContent='Ressenti '+Math.round(c.apparent_temperature)+'° · '+hm(d.daily.sunrise[0])+'–'+hm(d.daily.sunset[0]);
-  var hh=d.hourly,i0=nowIdx(hh.time),st='',k;
-  for(k=3;k<=9;k+=3){var q=i0+k;if(hh.time[q])st+='<div class="slot">'+icon(hh.weather_code[q],hh.is_day[q]===1)+'<b>'+Math.round(hh.temperature_2m[q])+'°</b>'+hh.time[q].substr(11,2)+'h</div>';}
-  $('strip').innerHTML=st;MAPD.wind={s:c.wind_speed_10m,d:c.wind_direction_10m};drawMap();done();
+  var hh=d.hourly,i0=nowIdx(hh.time),fc=[],k;
+  for(k=3;k<=12;k+=3){var q=i0+k;if(hh.time[q])fc.push({c:hh.weather_code[q],day:hh.is_day[q]===1,t:hh.temperature_2m[q],h:hh.time[q].substr(11,2)});}
+  MAPD.wx={c:c.weather_code,day:c.is_day===1,t:c.temperature_2m,f:c.apparent_temperature,sr:hm(d.daily.sunrise[0]),ss:hm(d.daily.sunset[0]),fc:fc};
+  MAPD.wind={s:c.wind_speed_10m,d:c.wind_direction_10m,g:c.wind_gusts_10m};drawMap();done();
  },fail);
 }
 
 // ---- Carte ----
-var MAINLAND=[[-3.6,47.78],[-3.45,47.73],[-3.35,47.71],[-3.25,47.67],[-3.14,47.60],[-3.12,47.56],[-3.15,47.50],[-3.13,47.47],[-3.08,47.50],[-3.07,47.55],[-2.92,47.55],[-2.78,47.50],[-2.57,47.52],[-2.47,47.47],[-2.47,47.40],[-2.55,47.38],[-2.52,47.29],[-2.42,47.27],[-2.34,47.26],[-2.21,47.27],[-2.17,47.26],[-2.23,47.13],[-2.10,47.11],[-2.03,47.05],[-1.98,46.99],[-1.95,46.95],[-1.9,46.85],[-1.9,47.8],[-3.6,47.8]];
+var MAINLAND=[[-4.5,47.9],[-3.6,47.78],[-3.45,47.73],[-3.35,47.71],[-3.25,47.67],[-3.14,47.60],[-3.12,47.56],[-3.15,47.50],[-3.13,47.47],[-3.08,47.50],[-3.07,47.55],[-2.92,47.55],[-2.78,47.50],[-2.57,47.52],[-2.47,47.47],[-2.47,47.40],[-2.55,47.38],[-2.52,47.29],[-2.42,47.27],[-2.34,47.26],[-2.21,47.27],[-2.17,47.26],[-2.23,47.13],[-2.10,47.11],[-2.03,47.05],[-1.98,46.99],[-1.95,46.95],[-2.0,46.90],[-2.07,46.82],[-2.03,46.76],[-1.94,46.69],[-1.8,46.6],[-1.4,46.5],[-1.4,48.6],[-4.5,48.6]];
+var YEU=[[-2.43,46.73],[-2.33,46.75],[-2.28,46.72],[-2.35,46.69],[-2.45,46.71]];
 var BELLE=[[-3.30,47.34],[-3.22,47.38],[-3.12,47.37],[-3.07,47.33],[-3.10,47.29],[-3.22,47.30]];
 var NOIR=[[-2.30,47.03],[-2.20,47.02],[-2.13,46.98],[-2.15,46.90],[-2.22,46.92],[-2.30,46.98]];
 function xy(o){return [(o[0]+3.6)*75.9,(47.8-o[1])*111];}
@@ -207,19 +210,32 @@ function waves(cx,cy,w){
   out+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="#2dc4f0" stroke-width="'+sw.toFixed(1)+'" stroke-opacity="'+op+'" stroke-linecap="round" stroke-linejoin="round"/>';}
  return out;
 }
-function windArrow(w){
- if(!w)return '';
- var kt=WIND_UNIT==='kn'?w.s:w.s/1.852,sc=(0.8+Math.min(kt/25,1)*0.7).toFixed(2),rot=((w.d||0)+180)%360,u=WIND_UNIT==='kn'?'nd':'km/h';
- return '<g transform="translate(52,15) rotate('+rot+') scale('+sc+')"><path d="M0 9V-9M-5 -4L0 -9L5 -4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g><text x="63" y="17.5" font-size="6.5" font-weight="700" fill="#fff" font-family="Helvetica,Arial,sans-serif">'+Math.round(w.s)+' '+u+'</text>';
+function tx(x,y,t,sz,col,an,wt){return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+sz+'" fill="'+col+'" text-anchor="'+(an||'start')+'" font-weight="'+(wt||700)+'" font-family="Helvetica,Arial,sans-serif">'+t+'</text>';}
+function ico(code,day,x,y,z){return '<svg x="'+x+'" y="'+y+'" width="'+z+'" height="'+z+'" viewBox="0 0 64 64" fill="none" stroke="#e8eef4" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">'+iconB(code,day)+'</svg>';}
+function overlay(){
+ var o='',w=MAPD.wx,v=MAPD.wind,i,f,cx;
+ if(w){
+  o+=ico(w.c,w.day,6,-53,22)+tx(33,-35,Math.round(w.t)+'°',20,'#fff')+tx(6,-24,'Ressenti '+Math.round(w.f)+'° · '+w.sr+'–'+w.ss,5.5,'#9fb0c0','start',600);
+  for(i=0;i<w.fc.length;i++){f=w.fc[i];cx=17+i*32;o+=ico(f.c,f.day,cx-6,-19,12)+tx(cx,-2,Math.round(f.t)+'° '+f.h+'h',5.8,'#fff','middle');}
+ }
+ if(v){
+  var kt=WIND_UNIT==='kn'?v.s:v.s/1.852,sc=(0.8+Math.min(kt/25,1)*0.5).toFixed(2),rot=((v.d||0)+180)%360,u=WIND_UNIT==='kn'?'nd':'km/h';
+  o+='<g transform="translate(85,-41) rotate('+rot+') scale('+sc+')"><path d="M0 9V-9M-5 -4L0 -9L5 -4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>'+
+   tx(96,-36,Math.round(v.s)+' '+u,13,'#fff')+tx(123,-24,dir(v.d)+' · raf. '+Math.round(v.g),5.5,'#9fb0c0','end',600);
+ }
+ return o;
+}
+function buoyPin(i,name,below){
+ var b=BUOYS[i],q=xy([b.lon,b.lat]),w=MAPD.sw[i],x=q[0],y=q[1],an=below?'start':'end',dx=below?(4-x):-7,y0=below?y+11:y-2;
+ var o='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.2" fill="#2dc4f0"/>'+tx(x+dx,y0,name,6.5,'#2dc4f0',an);
+ if(w&&w.h!=null)o+=tx(x+dx,y0+8.5,r1(w.h)+' m · '+Math.round(w.p)+' s',8.5,'#fff',an)+tx(x+dx,y0+15,'eau '+r1(w.t)+'°C',5.8,'#9fb0c0',an,600);
+ return o;
 }
 function drawMap(){
- var a=xy([BUOYS[0].lon,BUOYS[0].lat]),b=xy([BUOYS[1].lon,BUOYS[1].lat]);
- var h=waves(a[0],a[1],MAPD.sw[0])+waves(b[0],b[1],MAPD.sw[1])+poly(MAINLAND)+poly(BELLE)+poly(NOIR);
- h+=pin(BUOYS[0].lon,BUOYS[0].lat,'#2dc4f0','Belle-Île',0,-6,'middle');
- h+=pin(BUOYS[1].lon,BUOYS[1].lat,'#2dc4f0','Noirmoutier',-6,3,'end');
- var q=xy([-2.21,47.27]);
- h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="5.5" fill="none" stroke="#f5a623" stroke-width="1.4"/><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.4" fill="#f5a623"/><text x="'+(q[0]-8).toFixed(1)+'" y="'+(q[1]-6).toFixed(1)+'" font-size="6.5" fill="#f5a623" text-anchor="end" font-family="Helvetica,Arial,sans-serif">Saint-Nazaire</text>';
- h+=windArrow(MAPD.wind);
+ var a=xy([BUOYS[0].lon,BUOYS[0].lat]),b=xy([BUOYS[1].lon,BUOYS[1].lat]),q=xy([-2.21,47.27]);
+ var h=waves(a[0],a[1],MAPD.sw[0])+waves(b[0],b[1],MAPD.sw[1])+poly(MAINLAND)+poly(BELLE)+poly(NOIR)+poly(YEU)+overlay();
+ h+=buoyPin(0,'Belle-Île',true)+buoyPin(1,'Noirmoutier',false);
+ h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="5.5" fill="none" stroke="#f5a623" stroke-width="1.4"/><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.4" fill="#f5a623"/>'+tx(q[0]-8,q[1]-5,'Saint-Nazaire',6.5,'#f5a623','end');
  $('mapSvg').innerHTML=h;
 }
 
