@@ -64,7 +64,6 @@ footer{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;j
 </head>
 <body>
 <div id="app">
-<header><div><span id="clock">--:--</span><span id="date"></span></div><div id="place">Surf Desk · Saint-Nazaire</div></header>
 <div id="grid">
  <div class="card map"><svg id="mapSvg" viewBox="0 -56 129 188" preserveAspectRatio="xMidYMid meet"><g id="gBase"></g><g id="gDyn"></g></svg></div>
  <div class="rc">
@@ -236,8 +235,9 @@ function buoyPin(i,name,below){
  return o;
 }
 function pts(a){var i,r=[];for(i=0;i<a.length;i++){var q=xy(a[i]);r.push(q[0].toFixed(1)+','+q[1].toFixed(1));}return r.join(' ');}
+function fitMap(){var e=$('mapSvg'),w=e.clientWidth,h=e.clientHeight;if(w&&h){var vh=129*h/w;e.setAttribute('viewBox','0 -56 129 '+vh.toFixed(1));return vh;}return 188;}
 function drawBase(){
- var L=[MAINLAND,BELLE,NOIR,YEU],i,j,p,land='',halo='',coast='',t='';
+ var vh=fitMap(),L=[MAINLAND,BELLE,NOIR,YEU],i,j,p,land='',halo='',coast='',t='';
  for(i=0;i<L.length;i++){p=pts(L[i]);
   land+='<polygon points="'+p+'"/>';
   halo+='<polygon points="'+p+'" fill="#45c9bb" stroke="#45c9bb" stroke-width="6" stroke-linejoin="round"/>';
@@ -247,7 +247,7 @@ function drawBase(){
   '<filter id="tex" filterUnits="userSpaceOnUse" x="-80" y="-130" width="300" height="420"><feTurbulence type="fractalNoise" baseFrequency=".06 .08" numOctaves="4" seed="11" result="n"/>'+
   '<feColorMatrix in="n" type="matrix" values=".34 0 0 0 .07  0 .30 0 0 .20  0 0 .14 0 .08  0 0 0 0 1" result="c"/><feComposite in="c" in2="SourceGraphic" operator="in"/></filter></defs>';
  h+='<rect x="-80" y="-130" width="300" height="420" fill="url(#sea)"/><g filter="url(#bl)" opacity=".8">'+halo+'</g><g filter="url(#tex)">'+land+'</g>'+coast;
- var x0=Math.floor(OX/256),x1=Math.floor((OX+129*KM)/256),y0=Math.floor((OY-56*KM)/256),y1=Math.floor((OY+132*KM)/256),u,z=(256/KM+0.3).toFixed(2);
+ var x0=Math.floor(OX/256),x1=Math.floor((OX+129*KM)/256),y0=Math.floor((OY-56*KM)/256),y1=Math.floor((OY+(vh-56)*KM)/256),u,z=(256/KM+0.3).toFixed(2);
  for(i=x0;i<=x1;i++)for(j=y0;j<=y1;j++){
   u='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/'+j+'/'+i;
   t+='<image x="'+((i*256-OX)/KM).toFixed(2)+'" y="'+((j*256-OY)/KM).toFixed(2)+'" width="'+z+'" height="'+z+'" preserveAspectRatio="none" href="'+u+'" xlink:href="'+u+'"/>';}
@@ -267,10 +267,8 @@ function drawMap(){
 
 function done(){var d=new Date();$('status').textContent='Mis à jour '+p2(d.getHours())+':'+p2(d.getMinutes())+' · houle : modèle aux points des bouées';}
 function fail(){$('status').textContent='Données indisponibles, nouvel essai dans quelques minutes…';}
-var JRS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-function tick(){var d=new Date();$('clock').textContent=p2(d.getHours())+':'+p2(d.getMinutes());$('date').textContent=JRS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()];}
 function load(){loadSea();loadWx();loadTide();}
-drawBase();drawMap();tick();setInterval(tick,10000);load();setInterval(load,REFRESH_MIN*60000);
+drawBase();drawMap();window.addEventListener('resize',function(){drawBase();drawMap();});load();setInterval(load,REFRESH_MIN*60000);
 </script>
 </body>
 </html>
